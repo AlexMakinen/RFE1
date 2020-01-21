@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity, FlatList, Image, SafeAreaView} from 'react-native';
+import Constants from 'expo-constants';
 
 const mediaArray = [
   {
@@ -37,34 +39,63 @@ const mediaArray = [
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={mediaArray}
-        renderItem={({item}) => {
-          return (
-            <TouchableOpacity>
-              <Image
-                style={{width: 100, height: 100}}
-                source={{uri: item.thumbnails.w160}}
-              />
-              <View>
-                <Text>{item.title}</Text>
-                <Text>{item.description}</Text>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View>
+        <FlatList
+          initialNumToRender={3}
+          style={styles.list}
+          data={mediaArray}
+          renderItem={({item}) => {
+            return (
+              <TouchableOpacity style={styles.item}>
+                <Image
+                  style={styles.image}
+                  source={{uri: item.thumbnails.w160}}
+                />
+                <View>
+                  <Text style={styles.header}>{item.title}</Text>
+                  <Text style={styles.text}>{item.description}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 3,
+    marginTop: Constants.statusBarHeight,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  list: {
+    flex: 3,
+  },
+  item: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#ccc',
+    marginVertical: 4,
+    marginHorizontal: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+
+    height: '90%',
+    width: '25%',
+  },
+  header: {
+    fontWeight: 'bold',
+  },
+  text: {
+    flex: 1,
+    flexWrap: 'wrap',
   },
 });
 
